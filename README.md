@@ -2,7 +2,8 @@
 
 A full-stack MERN application for swapping time slots between users with real-time notifications.
 
-**Live Demo**: [Coming Soon]  
+**Backend API**: https://slotswapper-bhee.onrender.com  
+**Frontend**: Deploy to Vercel  
 **GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
 
 ---
@@ -117,26 +118,18 @@ node test-api.js
 
 ## 🚢 Deployment
 
-### Backend (Render)
-```bash
-Build Command: npm install
-Start Command: npm start
-Environment Variables:
-  NODE_ENV=production
-  JWT_SECRET=<your-secret>
-  MONGODB_URI=<your-mongodb-uri>
-```
+### Backend (Render) - ✅ Deployed
+**URL**: https://slotswapper-bhee.onrender.com
 
-### Frontend (Vercel)
+### Frontend (Vercel) - Deploy Now
 ```bash
 cd client
+npm install
 vercel --prod
-Environment Variables:
-  REACT_APP_API_URL=<your-render-url>
-  REACT_APP_SOCKET_URL=<your-render-url>
 ```
-
-See `DEPLOYMENT_GUIDE.md` for detailed instructions.
+Add environment variables in Vercel:
+- `REACT_APP_API_URL` = `https://slotswapper-bhee.onrender.com`
+- `REACT_APP_SOCKET_URL` = `https://slotswapper-bhee.onrender.com`
 
 ---
 
