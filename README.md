@@ -2,8 +2,8 @@
 
 A full-stack MERN application for swapping time slots between users with real-time notifications.
 
+**Live Demo**: https://slotswapper-client.netlify.app  
 **Backend API**: https://slotswapper-bhee.onrender.com  
-**Frontend**: Deploy to Vercel  
 **GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
 
 ---
