@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 
 function Marketplace({ token }) {
   const [swappableSlots, setSwappableSlots] = useState([]);
@@ -16,10 +16,10 @@ function Marketplace({ token }) {
   const fetchData = async () => {
     try {
       const [slotsRes, myEventsRes] = await Promise.all([
-        axios.get('/api/swappable-slots', {
+        api.get('/api/swappable-slots', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('/api/events', {
+        api.get('/api/events', {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
@@ -47,7 +47,7 @@ function Marketplace({ token }) {
     
     setLoading(true);
     try {
-      await axios.post('/api/swap-request', {
+      await api.post('/api/swap-request', {
         mySlotId,
         theirSlotId: selectedSlot._id
       }, {

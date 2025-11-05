@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 import EventForm from './EventForm';
 
 function Dashboard({ token }) {
@@ -15,7 +15,7 @@ function Dashboard({ token }) {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('/api/events', {
+      const response = await api.get('/api/events', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEvents(response.data);
@@ -31,7 +31,7 @@ function Dashboard({ token }) {
     
     setLoading(true);
     try {
-      await axios.post('/api/events', eventData, {
+      await api.post('/api/events', eventData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await fetchEvents();
@@ -48,7 +48,7 @@ function Dashboard({ token }) {
     
     setLoading(true);
     try {
-      await axios.put(`/api/events/${eventId}`, { status: newStatus }, {
+      await api.put(`/api/events/${eventId}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await fetchEvents();
@@ -65,7 +65,7 @@ function Dashboard({ token }) {
     
     setLoading(true);
     try {
-      await axios.delete(`/api/events/${eventId}`, {
+      await api.delete(`/api/events/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await fetchEvents();

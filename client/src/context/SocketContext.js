@@ -14,7 +14,9 @@ export const SocketProvider = ({ children, userId }) => {
   useEffect(() => {
     if (!userId) return;
 
-    const newSocket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000');
+    const socketUrl = process.env.REACT_APP_SOCKET_URL || process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    console.log('Connecting to WebSocket:', socketUrl);
+    const newSocket = io(socketUrl);
     
     newSocket.on('connect', () => {
       console.log('Connected to WebSocket server');

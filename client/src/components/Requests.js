@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 
 function Requests({ token }) {
   const [incomingRequests, setIncomingRequests] = useState([]);
@@ -14,10 +14,10 @@ function Requests({ token }) {
   const fetchRequests = async () => {
     try {
       const [incomingRes, outgoingRes] = await Promise.all([
-        axios.get('/api/swap-requests/incoming', {
+        api.get('/api/swap-requests/incoming', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('/api/swap-requests/outgoing', {
+        api.get('/api/swap-requests/outgoing', {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
@@ -36,7 +36,7 @@ function Requests({ token }) {
     
     setLoading(true);
     try {
-      await axios.post(`/api/swap-response/${requestId}`, { accept }, {
+      await api.post(`/api/swap-response/${requestId}`, { accept }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

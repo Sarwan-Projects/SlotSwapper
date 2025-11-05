@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 
 function Signup({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ function Signup({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/auth/signup', formData);
+      const response = await api.post('/api/auth/signup', formData);
       onLogin(response.data.token, response.data.user);
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed. Please try again.');
