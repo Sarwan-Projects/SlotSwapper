@@ -24,6 +24,35 @@ SlotSwapper is a full-stack web application that allows users to swap time slots
 - **Responsive Design**: Beautiful gradient UI that works on all devices
 - **Error Handling**: Comprehensive validation and user-friendly error messages
 
+### 🎁 Bonus Features Implemented
+
+✅ **Deployment Ready**
+- Configured for Render deployment with `render.yaml`
+- MongoDB Atlas cloud database integration
+- Production build configuration
+- Environment variables properly managed
+
+✅ **Comprehensive Documentation**
+- Detailed README with setup instructions
+- Complete API endpoint documentation
+- Testing guide included
+- Design decisions explained
+- Assumptions and challenges documented
+
+✅ **API Testing**
+- Automated test script (`test-api.js`)
+- Tests all major endpoints
+- Validates authentication flow
+- Verifies CRUD operations
+- Tests swap logic
+
+✅ **Production-Ready Code**
+- Error handling on all endpoints
+- Input validation with express-validator
+- Security best practices (JWT, bcrypt)
+- Clean code structure
+- Proper separation of concerns
+
 ## 🛠️ Technology Stack
 
 ### Backend
@@ -106,6 +135,29 @@ npm start
 ```
 
 Application available at: http://localhost:5000
+
+### 6. Docker Setup (Alternative)
+
+If you prefer using Docker:
+
+```bash
+# Make sure Docker is installed and running
+
+# Create .env file with your MongoDB URI
+cp .env.example .env
+# Edit .env with your MongoDB Atlas connection string
+
+# Build and run with Docker Compose
+docker-compose up --build
+
+# Application will be available at http://localhost:5000
+```
+
+**Docker Benefits**:
+- No need to install Node.js locally
+- Consistent environment across machines
+- Easy deployment
+- Isolated dependencies
 
 ## 📡 API Endpoints
 
@@ -309,31 +361,186 @@ Your app will be live at: `https://slotswapper.onrender.com`
 6. **Environment Variables**: Sensitive data in .env (not committed)
 7. **Cascade Delete**: User deletion removes all associated data
 
-## 🎯 Design Decisions
+## 🎯 Design Decisions & Architecture
 
-### Why JWT?
+### Authentication Strategy
+**Choice**: JWT (JSON Web Tokens)
+
+**Reasoning**:
 - Stateless authentication enables horizontal scaling
 - No server-side session storage needed
 - Works seamlessly with React frontend
-- Easy to implement and secure
+- Tokens can be easily validated on each request
+- 7-day expiration balances security and UX
 
-### Why MongoDB Atlas?
+### Database Selection
+**Choice**: MongoDB Atlas with Mongoose ODM
+
+**Reasoning**:
 - Cloud-based, no local installation required
-- Easy to scale and manage
-- Free tier perfect for development
-- Mongoose provides elegant ODM
+- Flexible schema perfect for rapid development
+- Easy to scale horizontally
+- Free tier sufficient for development and demo
+- Mongoose provides elegant data modeling
+- Document-based structure fits event data well
 
-### Why SWAP_PENDING Status?
-- Prevents race conditions
-- Locks slots during negotiation
-- Ensures data consistency
-- Prevents double-booking
+### Swap Transaction Logic
+**Choice**: SWAP_PENDING status with atomic operations
 
-### Why React?
-- Component-based architecture
-- Virtual DOM for performance
-- Large ecosystem and community
-- Easy state management
+**Reasoning**:
+- Prevents race conditions when multiple users request same slot
+- Locks slots during negotiation period
+- Ensures data consistency during swap
+- Prevents double-booking scenarios
+- Clear state machine: BUSY → SWAPPABLE → SWAP_PENDING → BUSY
+
+**Implementation**:
+1. When swap requested: Both slots → SWAP_PENDING
+2. If accepted: Swap owners, both → BUSY
+3. If rejected: Both slots → SWAPPABLE
+
+### Frontend Architecture
+**Choice**: React with component-based design
+
+**Reasoning**:
+- Component reusability (EventForm, Navbar, etc.)
+- Virtual DOM for optimal performance
+- React Router for seamless navigation
+- useState for simple state management (sufficient for this scope)
+- Could scale to Redux/Context API if needed
+
+### UI/UX Design
+**Choice**: Gradient purple theme with card-based layout
+
+**Reasoning**:
+- Modern, professional appearance
+- Purple gradient (667eea → 764ba2) is visually appealing
+- Card-based design clearly separates events
+- Color-coded status badges (Blue/Green/Orange) for quick recognition
+- Responsive design works on all devices
+- Loading states provide user feedback
+
+### API Design
+**Choice**: RESTful API with clear endpoint structure
+
+**Reasoning**:
+- Standard HTTP methods (GET, POST, PUT, DELETE)
+- Intuitive endpoint naming (/api/events, /api/swap-request)
+- Consistent response format
+- Proper status codes (200, 201, 400, 401, 404, 500)
+- Easy to document and test
+
+## 📋 Assumptions Made
+
+1. **User Behavior**
+   - Users are honest and won't abuse the system
+   - Users understand the swap concept
+   - Users will check their requests regularly
+
+2. **Time Management**
+   - Time zones handled by browser (local time)
+   - No validation for overlapping events
+   - Events can be created for any future date
+   - No minimum/maximum event duration
+
+3. **Swap Logic**
+   - One-to-one swaps only (no multi-party swaps)
+   - Once accepted, swap is final (no undo)
+   - Users can only swap their own SWAPPABLE slots
+   - Rejected swaps return slots to SWAPPABLE immediately
+
+4. **Data Management**
+   - User deletion is permanent (cascade delete)
+   - No soft delete functionality
+   - No event history tracking
+   - No audit logs
+
+5. **Security**
+   - HTTPS in production (handled by Render)
+   - JWT secret is secure in production
+   - MongoDB Atlas handles database security
+   - No rate limiting needed for demo
+
+6. **Scalability**
+   - Current architecture sufficient for demo
+   - Can scale horizontally if needed
+   - MongoDB Atlas can handle growth
+   - No caching layer needed initially
+
+## 🚧 Challenges Faced & Solutions
+
+### Challenge 1: Swap Transaction Atomicity
+**Problem**: Ensuring both events swap owners simultaneously without data inconsistency.
+
+**Solution**: 
+- Implemented SWAP_PENDING status to lock slots
+- Used Mongoose transactions implicitly
+- Validated both slots exist and are SWAPPABLE before creating request
+- Atomic owner swap in single operation
+
+### Challenge 2: Preventing Double Submissions
+**Problem**: Users could double-click buttons, sending duplicate requests.
+
+**Solution**:
+- Added loading states to all async operations
+- Disabled buttons during processing
+- Show "Processing..." feedback
+- Check loading state before executing actions
+
+### Challenge 3: Cascade Delete
+**Problem**: When user deleted, orphaned events and swap requests remained.
+
+**Solution**:
+- Implemented Mongoose pre-delete middleware
+- Automatically delete all user's events
+- Delete all swap requests involving user
+- Ensures database consistency
+
+### Challenge 4: Real-time UI Updates
+**Problem**: UI not reflecting changes after swap operations.
+
+**Solution**:
+- Fetch fresh data after every mutation
+- Use async/await properly
+- Update state immediately after API response
+- No page refresh needed
+
+### Challenge 5: Nested Git Repository
+**Problem**: Client folder had its own .git, causing submodule issues.
+
+**Solution**:
+- Removed client/.git folder
+- Re-added client folder to main repository
+- Ensured all files properly tracked
+
+### Challenge 6: Status Management
+**Problem**: Complex state transitions for events during swap process.
+
+**Solution**:
+- Clear state machine design
+- Status enum with only 3 states
+- Validation at each transition
+- Prevent operations on SWAP_PENDING events
+
+### Challenge 7: User Experience
+**Problem**: Users need clear feedback on actions.
+
+**Solution**:
+- Color-coded status badges
+- Loading states on buttons
+- Alert messages for success/error
+- Empty states with helpful messages
+- Visual swap comparison in requests
+
+### Challenge 8: Authentication Flow
+**Problem**: Protecting routes and managing tokens.
+
+**Solution**:
+- JWT middleware on backend
+- Token stored in localStorage
+- Protected routes in React Router
+- Automatic redirect to login if not authenticated
+- Token included in all API requests
 
 ## 🐛 Known Limitations
 
