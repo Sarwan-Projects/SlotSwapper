@@ -26,6 +26,22 @@ SlotSwapper is a full-stack web application that allows users to swap time slots
 
 ### 🎁 Bonus Features Implemented
 
+✅ **Real-time Notifications (WebSocket)** - NEW!
+- Socket.io integration for instant notifications
+- Real-time alerts when receiving swap requests
+- Live updates when requests are accepted/rejected
+- Browser notifications support
+- Notification bell with dropdown in navbar
+- Unread notification counter
+
+✅ **Unit & Integration Tests** - NEW!
+- Comprehensive test suite with Jest & Supertest
+- Authentication tests (signup, login)
+- Event CRUD operation tests
+- Complete swap logic tests
+- Test coverage reporting
+- Run with: `npm test`
+
 ✅ **Deployment Ready**
 - Configured for Render deployment with `render.yaml`
 - MongoDB Atlas cloud database integration
@@ -38,6 +54,12 @@ SlotSwapper is a full-stack web application that allows users to swap time slots
 - Testing guide included
 - Design decisions explained
 - Assumptions and challenges documented
+
+✅ **Containerization (Docker)**
+- Dockerfile with multi-stage build
+- docker-compose.yml for easy setup
+- .dockerignore for optimization
+- Production-ready container
 
 ✅ **API Testing**
 - Automated test script (`test-api.js`)
@@ -222,6 +244,29 @@ BUSY → (User marks as swappable) → SWAPPABLE → (Swap requested) → SWAP_P
 ```
 
 ## 🧪 Testing the Application
+
+### Unit & Integration Tests (NEW!)
+
+Run the comprehensive test suite:
+
+```bash
+npm test
+```
+
+This will run:
+- **Authentication Tests**: Signup, login, JWT validation
+- **Event Tests**: CRUD operations, validation
+- **Swap Tests**: Request creation, acceptance, rejection, owner exchange
+
+**Test Coverage:**
+```bash
+npm test -- --coverage
+```
+
+**Watch Mode (for development):**
+```bash
+npm run test:watch
+```
 
 ### Automated API Testing
 
@@ -635,6 +680,51 @@ If you encounter any issues:
 
 ---
 
-**Built with ❤️ using the MERN Stack**
+## 🎁 Bonus Features - Complete Implementation
+
+### ✅ ALL Bonus Features Implemented!
+
+**1. Real-time Notifications (WebSocket)** ✅
+- Socket.io server and client integration
+- Instant notifications for new swap requests
+- Live updates when requests are accepted/rejected
+- Browser notification API support
+- Notification bell with unread counter
+- Notification dropdown with history
+
+**2. Unit & Integration Tests** ✅
+- Jest test framework with Supertest
+- 20+ test cases covering:
+  - Authentication (signup, login, validation)
+  - Events (CRUD, authorization, validation)
+  - Swaps (request, accept, reject, owner exchange)
+- Test coverage reporting
+- Automated test suite
+
+**3. Deployment Configuration** ✅
+- render.yaml for one-click deployment
+- MongoDB Atlas cloud database
+- Production environment configuration
+- Environment variables management
+
+**4. Containerization (Docker)** ✅
+- Multi-stage Dockerfile
+- docker-compose.yml for orchestration
+- .dockerignore for optimization
+- Production-ready container setup
+
+**5. Comprehensive Documentation** ✅
+- Complete README with all sections
+- API endpoint documentation
+- Design decisions explained
+- Assumptions documented
+- Challenges and solutions detailed
+- Setup instructions step-by-step
+
+---
+
+**Built with ❤️ using the MERN Stack + Socket.io + Jest**
 
 🚀 **Ready for deployment and demonstration!**
+
+**All bonus features implemented and tested!**

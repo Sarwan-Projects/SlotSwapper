@@ -76,6 +76,18 @@ router.post('/swap-request', auth, async (req, res) => {
       .populate('targetUserId', 'name email')
       .populate('targetSlotId');
 
+    // Send real-time notification to target user
+    const io = req.app.get('io');
+    const userSockets = req.app.get('userSockets');
+    const targetSocketId = userSockets.get(theirSlot.userId.toString());
+    
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('newSwapRequest', {
+        message: `${populatedRequest.requesterId.name} wants to swap with you!`,
+        request: populatedRequest
+      });
+    }
+
     res.status(201).json(populatedRequest);
   } catch (error) {
     console.error('Create swap request error:', error);
@@ -129,13 +141,15 @@ router.post('/swap-response/:requestId', auth, async (req, res) => {
 
     const swapRequest = await SwapRequest.findById(requestId)
       .populate('requesterSlotId')
-      .populate('targetSlotId');
+      .populate('targetSlotId')
+      .populate('requesterId', 'name email')
+      .populate('targetUserId', 'name email');
 
     if (!swapRequest) {
       return res.status(404).json({ message: 'Swap request not found' });
     }
 
-    if (swapRequest.targetUserId.toString() !== req.userId) {
+    if (swapRequest.targetUserId._id.toString() !== req.userId) {
       return res.status(403).json({ message: 'Not authorized to respond to this request' });
     }
 
@@ -145,6 +159,7 @@ router.post('/swap-response/:requestId', auth, async (req, res) => {
 
     const requesterSlot = swapRequest.requesterSlotId;
     const targetSlot = swapRequest.targetSlotId;
+    const requesterId = swapRequest.requesterId._id.toString();
 
     if (accept) {
       // Accept: Swap the owners
@@ -159,6 +174,18 @@ router.post('/swap-response/:requestId', auth, async (req, res) => {
       await targetSlot.save();
 
       swapRequest.status = 'ACCEPTED';
+      
+      // Send real-time notification to requester
+      const io = req.app.get('io');
+      const userSockets = req.app.get('userSockets');
+      const requesterSocketId = userSockets.get(requesterId);
+      
+      if (requesterSocketId) {
+        io.to(requesterSocketId).emit('swapAccepted', {
+          message: `${swapRequest.targetUserId.name} accepted your swap request!`,
+          request: swapRequest
+        });
+      }
     } else {
       // Reject: Reset slots to SWAPPABLE
       requesterSlot.status = 'SWAPPABLE';
@@ -168,6 +195,18 @@ router.post('/swap-response/:requestId', auth, async (req, res) => {
       await targetSlot.save();
 
       swapRequest.status = 'REJECTED';
+      
+      // Send real-time notification to requester
+      const io = req.app.get('io');
+      const userSockets = req.app.get('userSockets');
+      const requesterSocketId = userSockets.get(requesterId);
+      
+      if (requesterSocketId) {
+        io.to(requesterSocketId).emit('swapRejected', {
+          message: `${swapRequest.targetUserId.name} rejected your swap request`,
+          request: swapRequest
+        });
+      }
     }
 
     await swapRequest.save();

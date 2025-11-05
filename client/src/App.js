@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { SocketProvider } from './context/SocketContext';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
@@ -35,35 +36,37 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        {token && <Navbar user={user} onLogout={handleLogout} />}
-        <Routes>
-          <Route 
-            path="/login" 
-            element={!token ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" />} 
-          />
-          <Route 
-            path="/signup" 
-            element={!token ? <Signup onLogin={handleLogin} /> : <Navigate to="/dashboard" />} 
-          />
-          <Route 
-            path="/dashboard" 
-            element={token ? <Dashboard token={token} /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/marketplace" 
-            element={token ? <Marketplace token={token} /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/requests" 
-            element={token ? <Requests token={token} /> : <Navigate to="/login" />} 
-          />
-          <Route 
-            path="/" 
-            element={<Navigate to={token ? "/dashboard" : "/login"} />} 
-          />
-        </Routes>
-      </div>
+      <SocketProvider userId={user?.id}>
+        <div className="App">
+          {token && <Navbar user={user} onLogout={handleLogout} />}
+          <Routes>
+            <Route 
+              path="/login" 
+              element={!token ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" />} 
+            />
+            <Route 
+              path="/signup" 
+              element={!token ? <Signup onLogin={handleLogin} /> : <Navigate to="/dashboard" />} 
+            />
+            <Route 
+              path="/dashboard" 
+              element={token ? <Dashboard token={token} /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/marketplace" 
+              element={token ? <Marketplace token={token} /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/requests" 
+              element={token ? <Requests token={token} /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/" 
+              element={<Navigate to={token ? "/dashboard" : "/login"} />} 
+            />
+          </Routes>
+        </div>
+      </SocketProvider>
     </Router>
   );
 }

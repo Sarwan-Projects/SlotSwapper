@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import NotificationBell from './NotificationBell';
 
 function Navbar({ user, onLogout }) {
   return (
@@ -17,6 +18,8 @@ function Navbar({ user, onLogout }) {
           <NavLink to="/requests" className="nav-link">
             Requests
           </NavLink>
+          
+          <NotificationBell />
           
           <div className="user-info">
             <span className="user-name">{user?.name}</span>
