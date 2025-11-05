@@ -6,6 +6,9 @@ A full-stack MERN application for swapping time slots between users with real-ti
 **🔗 Backend API**: https://slotswapper-bhee.onrender.com  
 **📦 GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
 
+**✅ Status**: Fully deployed and working!  
+**🔔 Features**: Real-time notifications, swap requests, user authentication
+
 ---
 
 ## 📋 Overview
