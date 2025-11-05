@@ -1,6 +1,11 @@
 # SlotSwapper - Peer-to-Peer Time-Slot Scheduling Application
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-SlotSwapper-blue?logo=github)](https://github.com/Sarwan-Projects/SlotSwapper)
+[![Live Demo](https://img.shields.io/badge/Demo-Coming%20Soon-green)](https://github.com/Sarwan-Projects/SlotSwapper)
+
 SlotSwapper is a full-stack web application that allows users to swap time slots with each other. Users can mark their busy calendar slots as "swappable" and request to exchange them with other users' swappable slots.
+
+**GitHub Repository**: https://github.com/Sarwan-Projects/SlotSwapper
 
 ## 🚀 Features
 
@@ -47,7 +52,7 @@ SlotSwapper is a full-stack web application that allows users to swap time slots
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Sarwan-Projects/SlotSwapper.git
 cd SlotSwapper
 ```
 
