@@ -15,7 +15,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-      ? ['https://slotswapper-client.netlify.app', 'https://690b13e5c01413ac19bd1af6--slotswapper-client.netlify.app']
+      ? ['https://slotswapper-client.netlify.app', 'https://690b183c9fcdc9480b9da360--slotswapper-client.netlify.app']
       : 'http://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true
@@ -28,7 +28,7 @@ app.set('io', io);
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://slotswapper-client.netlify.app', 'https://690b13e5c01413ac19bd1af6--slotswapper-client.netlify.app']
+    ? ['https://slotswapper-client.netlify.app', 'https://690b183c9fcdc9480b9da360--slotswapper-client.netlify.app']
     : 'http://localhost:3000',
   credentials: true
 }));
