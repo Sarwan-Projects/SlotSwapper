@@ -2,9 +2,9 @@
 
 A full-stack MERN application for swapping time slots between users with real-time notifications.
 
-**Live Demo**: https://slotswapper-client.netlify.app  
-**Backend API**: https://slotswapper-bhee.onrender.com  
-**GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
+**🌐 Live Demo**: https://slotswapper-client.netlify.app  
+**🔗 Backend API**: https://slotswapper-bhee.onrender.com  
+**📦 GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
 
 ---
 
@@ -24,7 +24,7 @@ SlotSwapper allows users to:
 **Backend**: Node.js, Express.js, MongoDB, Socket.io, JWT  
 **Frontend**: React, Socket.io-client, React Router, Axios  
 **Testing**: Jest, Supertest (20+ test cases)  
-**DevOps**: Docker, Render, Vercel
+**DevOps**: Docker, Render (Backend), Netlify (Frontend)
 
 ---
 
@@ -121,13 +121,10 @@ node test-api.js
 ### Backend (Render) - ✅ Deployed
 **URL**: https://slotswapper-bhee.onrender.com
 
-### Frontend (Vercel) - Deploy Now
-```bash
-cd client
-npm install
-vercel --prod
-```
-Add environment variables in Vercel:
+### Frontend (Netlify) - ✅ Deployed
+**URL**: https://slotswapper-client.netlify.app
+
+**Environment Variables (Already Configured)**:
 - `REACT_APP_API_URL` = `https://slotswapper-bhee.onrender.com`
 - `REACT_APP_SOCKET_URL` = `https://slotswapper-bhee.onrender.com`
 
@@ -203,7 +200,7 @@ SlotSwapper/
 
 ---
 
-## � Bonus Features Implemented
+## 🎁 Bonus Features Implemented
 
 ✅ Real-time Notifications (WebSocket)  
 ✅ Unit & Integration Tests  
@@ -213,16 +210,28 @@ SlotSwapper/
 
 ---
 
+## 🌐 Live Application
+
+**Frontend**: https://slotswapper-client.netlify.app  
+**Backend API**: https://slotswapper-bhee.onrender.com  
+**GitHub**: https://github.com/Sarwan-Projects/SlotSwapper
+
+**Test the app**: Sign up, create events, mark as swappable, and test real-time swap notifications!
+
+---
+
 ## 📄 License
 
 MIT License
 
 ---
 
-## � Auth or
+## 👤 Author
 
 Created for ServiceHive Full Stack Intern Technical Challenge
 
 ---
 
 **Built with MERN Stack + Socket.io + Jest + Docker**
+
+**Deployed on Render (Backend) + Netlify (Frontend)**
